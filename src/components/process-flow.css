@@ -1,0 +1,97 @@
+.process-flow { border: 1px solid #dedfd5; border-radius: 9px; overflow: hidden; background: #f7f8f2; min-width: 0; color: #233c34; }
+.flow-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 10px 16px; padding: 12px 16px; border-bottom: 1px solid #dedfd5; flex-wrap: wrap; background: #fffefb; }
+.flow-toolbar strong { display: block; font-size: 14px; }
+.flow-toolbar span { font-size: 12px; line-height: 1.5; color: #626d64; }
+.flow-tools { display: flex; gap: 6px; flex-wrap: wrap; }
+.flow-tools button, .flow-dialog button.flow-close, .flow-evidence-tools button { min-width: 40px; min-height: 40px; background: #fffefb; color: #193c32; border: 1px solid #ccd4c8; border-radius: 6px; padding: 8px 11px; font: inherit; font-size: 12px; line-height: 1.4; cursor: pointer; }
+.flow-tools button:hover, .flow-dialog button.flow-close:hover, .flow-evidence-tools button:not(:disabled):hover { background: #edf0e6; border-color: #8b9d88; }
+.flow-canvas { height: clamp(320px, 48vh, 460px); width: 100%; }
+.process-flow-lanes .flow-canvas { height: clamp(430px, 60vh, 600px); }
+.process-flow-expanded .flow-canvas { height: max(320px, calc(70dvh - 120px)); }
+.flow-legend { display: flex; justify-content: center; gap: 6px 16px; flex-wrap: wrap; padding: 11px 14px; font-size: 11px; line-height: 1.5; color: #626d64; border-top: 1px solid #dedfd5; }
+.process-flow .react-flow__handle { opacity: 0; pointer-events: none; }
+/* Nonselectable React Flow wrappers must still pass clicks to evidence buttons. */
+.process-flow .react-flow__node { pointer-events: all !important; }
+/* Lane backgrounds are siblings of task nodes, not hit targets. */
+.process-flow .react-flow__node.flow-lane,
+.process-flow .react-flow__node-lane,
+.process-flow .react-flow__node:has(> .flow-lane) { pointer-events: none !important; }
+.flow-lane { box-sizing: border-box; overflow: hidden; border: 1px solid #d0d9c9; border-radius: 7px; background: #edf1e780; pointer-events: none !important; }
+.flow-lane-label { display: block; box-sizing: border-box; max-width: 100%; padding: 11px 14px; border-bottom: 1px solid #d0d9c9; background: #e5ebdf; color: #294d3e; font-size: 12px; font-weight: 600; line-height: 18px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden; }
+.flow-lane-unknown { border-style: dashed; border-color: #c8b893; background: #faf4e880; }
+.flow-lane-unknown .flow-lane-label { border-color: #dbcfb5; background: #f4eddf; color: #775f32; }
+.flow-lane-caption { margin: 0; padding: 10px 14px; color: #626d64; font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
+.flow-step { box-sizing: border-box; width: 224px; height: 262px; padding: 12px 13px; display: grid; grid-template-rows: 12px 22px 36px 32px minmax(0, 1fr) 12px; gap: 4px; text-align: left; border: 1px solid #bdcbbb; border-radius: 8px; background: #fffefb; box-shadow: 0 2px 4px #193c3208; color: #233c34; cursor: pointer; font-family: inherit; }
+.flow-step:hover { border-color: #496e59; background: #fcfdf8; }
+.flow-step:focus-visible { border-color: #193c32; }
+.flow-step-decision { border-color: #b99e69; background: #fffcf4; }
+.flow-step-decision:hover { background: #fff9eb; border-color: #8e713f; }
+.flow-step-top { display: flex; align-items: center; justify-content: space-between; gap: 6px; font-size: 9px; line-height: 12px; color: #626d64; text-transform: uppercase; letter-spacing: .045em; }
+.flow-step-number { color: #193c32; font-weight: 700; font-variant-numeric: tabular-nums; }
+.flow-apps { display: flex; gap: 6px 10px; align-items: center; flex-wrap: wrap; min-width: 0; }
+.flow-step .flow-apps { flex-wrap: nowrap; overflow: hidden; }
+.flow-app { display: inline-flex; gap: 5px; align-items: center; font-size: 11px; color: #324a3b; white-space: nowrap; }
+.flow-app i { display: inline-grid; place-items: center; height: 22px; min-width: 22px; padding: 0 3px; border-radius: 5px; color: white; font-size: 12px; font-style: normal; font-family: Georgia, serif; font-weight: bold; }
+.flow-app-unknown { color: #626d64; font-size: 10px; }
+.flow-step strong { font-size: 13px; line-height: 18px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.flow-step-action { font-size: 11px; line-height: 16px; color: #626d64; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.flow-insights { display: flex; flex-direction: column; gap: 3px; min-height: 0; overflow: hidden; }
+.flow-insight { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 0; padding: 3px 5px; border-left: 3px solid transparent; font-size: 9px; line-height: 12px; overflow-wrap: anywhere; }
+.flow-insight b { font-weight: 800; }
+.flow-insight-why { border-color: #7a9880; background: #edf3e9; color: #2d5840; }
+.flow-insight-rule { border-color: #b8893c; background: #fbf0d6; color: #77561e; }
+.flow-insight-human { border-color: #a88976; background: #f6ece5; color: #765444; }
+.flow-insight-revised { border-color: #a3a69e; background: #f0f1ed; color: #526259; }
+.flow-step-source { align-self: end; font-size: 9px; line-height: 12px; color: #626d64; white-space: nowrap; }
+.flow-dialog { box-sizing: border-box; border: 1px solid #c9d4c3; border-radius: 9px; margin: auto; padding: 20px; background: #fffefb; color: #233c34; width: min(1140px, calc(100vw - 40px)); max-width: calc(100vw - 40px); max-height: calc(100dvh - 40px); overflow: auto; overscroll-behavior: contain; scroll-padding-block: 90px 24px; box-shadow: 0 16px 64px #16271c30; }
+.flow-dialog::backdrop { background: #152a20a8; }
+.flow-dialog-head { position: sticky; top: -20px; z-index: 5; display: flex; justify-content: space-between; align-items: start; gap: 16px; margin: -20px -20px 20px; padding: 20px; border-bottom: 1px solid #dedfd5; background: #fffefb; }
+.flow-dialog-head > div { min-width: 0; }
+.flow-dialog-head h3 { margin: 0; font: 26px/1.25 Georgia, serif; overflow-wrap: anywhere; }
+.flow-dialog-head small { display: block; margin-bottom: 7px; color: #626d64; font-size: 12px; line-height: 1.5; }
+.flow-dialog button.flow-close { flex-shrink: 0; }
+.flow-evidence { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(240px, 1fr); align-items: start; gap: 24px; }
+.flow-evidence > * { min-width: 0; }
+.flow-evidence figure { margin: 0; }
+.flow-screenshot { display: block; width: 100%; padding: 0; border: 1px solid #d5ddcf; background: #f7f4ee; border-radius: 7px; overflow: hidden; cursor: zoom-in; }
+.flow-screenshot img { display: block; width: 100%; height: auto; }
+.flow-evidence figcaption, .flow-dialog .caption { color: #626d64; font-size: 12px; line-height: 1.6; margin-top: 8px; overflow-wrap: anywhere; }
+.flow-evidence p { margin: 12px 0; font-size: 14px; line-height: 1.65; overflow-wrap: anywhere; }
+.flow-evidence p small { color: #626d64; font-size: 12px; }
+.flow-evidence blockquote { margin: 16px 0; padding: 14px 16px; background: #f0f2e9; border-left: 3px solid #91a182; font-size: 14px; line-height: 1.65; overflow-wrap: anywhere; }
+.flow-evidence blockquote footer { font-size: 11px; line-height: 1.5; color: #626d64; margin-top: 9px; }
+.flow-evidence-tools { display: flex; justify-content: space-between; gap: 10px; margin-top: 22px; padding-top: 16px; border-top: 1px solid #dedfd5; }
+.flow-evidence-tools button:disabled { cursor: not-allowed; color: #7b8178; border-color: #e1e3da; background: #eeeee8; }
+.flow-evidence-zoomed { grid-template-columns: 1fr; }
+.flow-evidence-zoomed .flow-evidence-text { display: none; }
+.flow-evidence-zoomed .flow-screenshot { max-height: 65dvh; overflow: auto; overscroll-behavior: contain; touch-action: pan-x pan-y pinch-zoom; cursor: zoom-out; }
+.flow-evidence-zoomed .flow-screenshot img { width: 150%; max-width: none; height: auto; }
+.flow-guardrail { margin-top: 14px; padding: 12px; border: 1px solid #d6bd8e; border-radius: 6px; background: #fffcf4; }
+.flow-guardrail summary { cursor: pointer; color: #77561e; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
+.flow-guardrail img { display: block; max-width: 100%; height: auto; border-radius: 4px; }
+.flow-knowledge-badges { display: flex; align-content: start; align-items: start; flex-wrap: wrap; gap: 3px 4px; }
+.flow-knowledge-badges b { padding: 2px 5px; border: 1px solid #d6ddcf; border-radius: 4px; background: #edf0e6; color: #405447; font-size: 9px; font-weight: 600; line-height: 11px; white-space: nowrap; }
+/* Review status is explicit in the rule callout; color alone never implies approval. */
+.flow-knowledge-badges .flow-rule { border-color: #d6bd8e; background: #fcf2dc; color: #77561e; }
+.flow-knowledge-badges .flow-human { border-color: #ccbbb0; background: #f4ebe4; color: #765444; }
+.flow-knowledge-label { margin: 20px 0 6px; color: #626d64; font-size: 11px; font-weight: 600; line-height: 1.5; letter-spacing: .06em; text-transform: uppercase; }
+.flow-evidence .flow-human-note { padding: 12px; border: 1px solid #d9c6b8; border-radius: 6px; background: #f8f0e9; color: #765444; font-size: 12px; }
+.process-flow :is(button, summary):focus-visible,
+.flow-dialog :is(button, summary, a):focus-visible { outline: 3px solid #496e59; outline-offset: 3px; }
+
+@media (max-width: 700px) {
+  .flow-evidence { grid-template-columns: 1fr; gap: 20px; }
+  .flow-dialog { width: calc(100vw - 16px); max-width: calc(100vw - 16px); max-height: calc(100dvh - 16px); padding: 14px; padding-bottom: max(14px, env(safe-area-inset-bottom)); }
+  .flow-dialog-head { top: -14px; margin: -14px -14px 16px; padding: 14px; gap: 10px; }
+  .flow-dialog-head h3 { font-size: 21px; }
+  .flow-dialog-head small { font-size: 11px; }
+  .flow-toolbar { padding: 12px; }
+  .flow-tools button, .flow-dialog button.flow-close, .flow-evidence-tools button { min-width: 44px; min-height: 44px; }
+  .flow-evidence-tools button { flex: 1; }
+  .flow-legend { justify-content: flex-start; gap: 6px 12px; }
+  .process-flow-expanded .flow-canvas { height: max(280px, calc(100dvh - 270px)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .process-flow *, .flow-dialog * { scroll-behavior: auto; transition: none; animation: none; }
+}

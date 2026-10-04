@@ -1,0 +1,18 @@
+.teach-workspace .teach-start { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding: 24px; margin-bottom: 24px; }
+.teach-start h2 { font-family: Georgia, serif; font-size: 25px; font-weight: 400; color: var(--forest); margin: 0 0 8px; }
+.teach-start p { color: var(--muted); line-height: 1.6; margin: 0 0 16px; }
+.teach-start .checkbox { display: flex; gap: 9px; align-items: center; font-size: 12px; }
+.teach-actions { display: grid; min-width: 230px; gap: 8px; }
+.teach-actions .button { text-align: center; }
+.teach-grid { display: grid; grid-template-columns: minmax(0, 1fr) 310px; gap: 24px; align-items: start; }
+.teach-screen { min-height: 380px; overflow: hidden; }
+.teach-screen > img { display: block; width: calc(100% - 40px); max-height: 300px; object-fit: contain; margin: 0 20px 12px; border: 1px solid var(--line); border-radius: 5px; }
+.teach-screen > p { margin: 16px 20px; line-height: 1.55; }
+.teach-screen > .error, .teach-screen > .notice { padding: 12px; border-radius: 5px; }
+.teach-map { margin-top: 24px; padding-bottom: 24px; }
+.teach-map > .subtle { padding: 0 22px; }
+@media (max-width: 850px) {
+  .teach-workspace .teach-start { display: block; }
+  .teach-actions { margin-top: 18px; }
+  .teach-grid { grid-template-columns: 1fr; }
+}
