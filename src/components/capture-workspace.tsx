@@ -272,7 +272,7 @@ export function CaptureWorkspace() {
     setRetrySave(false);
     setRetryMap(false);
     setError("");
-    setNotice("Wird gespeichert …");
+    setNotice("Saving …");
     const controller = new AbortController();
     finishing.current = controller;
     try {

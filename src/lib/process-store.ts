@@ -86,6 +86,35 @@ export async function updateUntouchedDemoProcesses(examples: RecordedProcess[]):
   });
 }
 
+/** Remove only the known pre-English synthetic walkthrough fixtures. */
+export async function removeLegacyGermanSyntheticProcesses(): Promise<number> {
+  const database = await openDatabase();
+  return new Promise((resolve, reject) => {
+    const tx = database.transaction(STORE, "readwrite");
+    const store = tx.objectStore(STORE);
+    const request = store.getAll();
+    let removed = 0;
+    request.onsuccess = () => {
+      for (const process of request.result as RecordedProcess[]) {
+        const title = process.title.toLocaleLowerCase();
+        const summary = process.versions.map((version) => version.summary).join(" ").toLocaleLowerCase();
+        const isLegacySynthetic = process.ownerId === "local-demo-user" && !process.mergedIntoId &&
+          (title.includes("angebots-e-mail aus notion") ||
+            title.includes("entwurf: work map") ||
+            title.includes("mietereservierung in fleetflow") ||
+            summary.includes("einzelnen screenshots") ||
+            summary.includes("crm example (test process)"));
+        if (isLegacySynthetic) {
+          store.delete(process.id);
+          removed++;
+        }
+      }
+    };
+    tx.oncomplete = () => { database.close(); resolve(removed); };
+    tx.onabort = () => { database.close(); reject(new Error("Could not refresh legacy demo examples")); };
+  });
+}
+
 /** Resolve merge redirects inside the same transaction, including late capture/map writes. */
 function resolveProcess(
   store: IDBObjectStore,

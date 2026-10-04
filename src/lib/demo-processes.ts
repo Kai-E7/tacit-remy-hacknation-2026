@@ -87,7 +87,9 @@ export const DEMO_PROCESS_SPECS: DemoProcessSpec[] = [
 ];
 
 export const DEMO_SEED_MARKER = "tacit-synthetic-examples-v1";
-export const DEMO_ENGLISH_MARKER = "tacit-synthetic-examples-en-v1";
+// Bump this when the bundled examples change language/content. The seed updater
+// only replaces untouched legacy fixtures, never a user's captured process.
+export const DEMO_ENGLISH_MARKER = "tacit-synthetic-examples-en-v2";
 export function demoImagePath(screen: DemoScreen) {
   return `/demo-evidence/${screen.id}.jpg`;
 }

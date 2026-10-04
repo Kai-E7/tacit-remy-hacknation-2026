@@ -1,8 +1,12 @@
 import { buildDemoProcesses, DEMO_ENGLISH_MARKER, DEMO_PROCESS_SPECS, DEMO_SEED_MARKER, demoImagePath } from "./demo-processes";
-import { addDemoProcesses, updateUntouchedDemoProcesses } from "./process-store";
+import { addDemoProcesses, removeLegacyGermanSyntheticProcesses, updateUntouchedDemoProcesses } from "./process-store";
 
 /** One-time, additive local examples; deletion is respected on later visits. */
 export async function ensureDemoProcesses(): Promise<void> {
+  // Run this narrow cleanup before the marker check as well. Older local tabs may
+  // already have the English marker while still containing the original German
+  // fixtures. Never touch captured processes; the remover only matches known demo IDs/content.
+  await removeLegacyGermanSyntheticProcesses();
   if (localStorage.getItem(DEMO_ENGLISH_MARKER)) return;
   const alreadySeeded = !!localStorage.getItem(DEMO_SEED_MARKER);
   const images: Record<string, string> = {};
