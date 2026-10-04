@@ -2,7 +2,9 @@ import "server-only";
 import { backupCloudProcess, cloudConfigured, deleteCloudProcess, listCloudProcesses, validCloudProcess } from "../../../server/cloud-processes";
 
 export const runtime = "nodejs";
-const localOnly = process.env.NODE_ENV === "development";
+// Explicit opt-in enables the single-owner hackathon deployment without ever
+// exposing the Supabase secret to the browser. Keep it off by default.
+const cloudEnabled = process.env.NODE_ENV === "development" || process.env.SUPABASE_AUTO_SYNC === "true";
 const allowedOrigins = [
   "http://127.0.0.1:3000", "http://localhost:3000",
   "http://127.0.0.1:3100", "http://localhost:3100",
@@ -30,14 +32,14 @@ async function readBoundedJson(req: Request): Promise<unknown> {
 }
 
 export async function GET(req: Request) {
-  if (!localOnly) return reply({ error: "cloud_unavailable_in_public_demo" }, 403);
+  if (!cloudEnabled) return reply({ error: "cloud_unavailable_in_public_demo" }, 403);
   if (!cloudConfigured()) return reply({ error: "cloud_not_configured" }, 503);
   try { return reply({ processes: await listCloudProcesses() }); }
   catch { return reply({ error: "cloud_load_failed" }, 503); }
 }
 
 export async function POST(req: Request) {
-  if (!localOnly) return reply({ error: "cloud_unavailable_in_public_demo" }, 403);
+  if (!cloudEnabled) return reply({ error: "cloud_unavailable_in_public_demo" }, 403);
   if (!sameOrigin(req)) return reply({ error: "invalid_origin" }, 403);
   if (!cloudConfigured()) return reply({ error: "cloud_not_configured" }, 503);
   if (!req.headers.get("content-type")?.startsWith("application/json")) return reply({ error: "invalid_request" }, 415);
@@ -50,7 +52,7 @@ export async function POST(req: Request) {
 }
 
 export async function DELETE(req: Request) {
-  if (!localOnly) return reply({ error: "cloud_unavailable_in_public_demo" }, 403);
+  if (!cloudEnabled) return reply({ error: "cloud_unavailable_in_public_demo" }, 403);
   if (!sameOrigin(req)) return reply({ error: "invalid_origin" }, 403);
   if (!cloudConfigured()) return reply({ error: "cloud_not_configured" }, 503);
   let body: unknown;

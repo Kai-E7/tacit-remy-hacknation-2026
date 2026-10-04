@@ -7,6 +7,7 @@ import {
   type RecordingInput,
 } from "../lib/processes";
 import { getProcess, saveRecording, saveDraftMap } from "../lib/process-store";
+import { syncProcessToCloud } from "../lib/cloud-sync";
 import { finishRecording } from "../lib/finish-recording";
 import type { Utterance } from "../lib/work-map";
 import { UserSelector, WorkspaceNavigation } from "./workspace-navigation";
@@ -212,9 +213,11 @@ export function VoiceInterviewWorkspace() {
       });
       if (mounted.current) {
         setSaved(result.process);
-        setMessage(
-          result.warning ?? "Saved — including the process diagram.",
-        );
+        void syncProcessToCloud(result.process).then((cloudSaved) => {
+          if (mounted.current && cloudSaved && !result.warning)
+            setMessage("Saved locally and backed up to Supabase — including the process diagram.");
+        });
+        setMessage(result.warning ?? "Saved locally — including the process diagram.");
         setRetry(!!result.warning);
       }
     } catch (cause) {

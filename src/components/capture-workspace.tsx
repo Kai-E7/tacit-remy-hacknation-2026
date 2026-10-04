@@ -18,6 +18,7 @@ import {
 } from "../lib/processes";
 import { getProcess, saveRecording, saveDraftMap } from "../lib/process-store";
 import { finishRecording } from "../lib/finish-recording";
+import { syncProcessToCloud } from "../lib/cloud-sync";
 import type { Utterance } from "../lib/work-map";
 import { UserSelector, WorkspaceNavigation } from "./workspace-navigation";
 import { VoiceCompanion } from "./voice-companion";
@@ -326,6 +327,10 @@ export function CaptureWorkspace() {
       });
       if (mounted.current) {
         setSaved(result.process);
+        void syncProcessToCloud(result.process).then((cloudSaved) => {
+          if (mounted.current && cloudSaved && !result.warning)
+            setNotice("Saved locally and backed up to Supabase.");
+        });
         setNotice(
           result.warning ??
             `Saved. ${result.process.versions.at(-1)?.privacy?.status ?? "manual review required"}`,
